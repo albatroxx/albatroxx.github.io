@@ -1,7 +1,12 @@
 ---
 layout: post
 ---
-![Output](https://albatroxx.github.io/images/line_profiler.png)
+@import "figure";
+
+<figure>
+  <img src="https://albatroxx.github.io/images/line_profiler.png" alt="Example output"/>
+  <figcaption style="text-align:center;">Looks like eval() is super slow.</figcaption>
+</figure>
 
 Apparently there aren't a ton of very convenient code profilers for Python. That isn't to say that there aren't good ways to profile code, as there are some very powerful tools available, but none of the did what I wanted a profiler to do. I had three criteria for my theoretical profiler:
  - It should profile an entire script
