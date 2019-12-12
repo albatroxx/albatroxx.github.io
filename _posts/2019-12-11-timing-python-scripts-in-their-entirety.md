@@ -1,7 +1,6 @@
 ---
 layout: post
 ---
-@import "figure";
 
 <figure>
   <img src="https://albatroxx.github.io/images/line_profiler.png" alt="Example output"/>
