@@ -12,13 +12,13 @@ Generally I write scripts that perform repetetive taks I don't want to do in ord
 
 Spoiler, I didn't find one. But it turns out they are pretty fun to write. So that's cool.
 
-## Installation
+### Installation
 In the interest of making life simple, I didn't do much in the way of packaging. One day I will figure that out, but not today. For now, installation goes as follows:
 1. Copy the code into a file. I named mine "line_profiler.py", but if you want a different name you can do that too. Just be aware that whatever you name it is what you need to type to run the program later.
 2. Save the file (or download) to somewhere in your $PATH. Usually the most logical place is /usr/bin/, but you can always check what your options are by running `echo $PATH` in a terminal.
 3. In the terminal, run `chmod +x line_profiler.py` from the file's location to make it executable.
 
-## Execution
+### Execution
 To run the program, run `line_profiler.py script_to_run.py [any command line arguments used by script_to_run.py]`.
 
 There are two command line options, both of which are disabled by default:
@@ -26,7 +26,7 @@ There are two command line options, both of which are disabled by default:
  - `--time-estimate` will run your script silently before beginning the profile to get an idea of how much time it will take to execute
 
 
-## Known Issues
+### Known Issues
 This has only been tested for compatability with Python 3.5+. I wholeheartedly intend to figure out a testing setup to allow me to test code against multiple Python versions, but I also have an extremely long list of thing I intend to learn how to do, so we will see how that turns out.
 
 This is **NOT** fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don't need to run the profile very often, and it is primarily intended for short-duration scripts. The two easiest workarounds are (a) select a small test case, and (b) use a different profile to target specific functions in bigger code-bases.
