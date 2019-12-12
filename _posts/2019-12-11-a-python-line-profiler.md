@@ -1,6 +1,7 @@
 ---
 layout: post
 ---
+![Output](https://albatroxx.github.io/images/line_profiler.png)
 
 Apparently there aren't a ton of very convenient code profilers for python. That isn't to say that there aren't good ways to profile code, as there are some very powerful tools available, but I was looking for something simple. Ideally, it would,
  - have no dependencies
@@ -29,9 +30,11 @@ There are two command line options, both of which are disabled by default:
 ## Know Issues
 This has only been tested for compatability with Python 3.5+. I wholeheartedly intend to figure out a testing setup to allow me to test code against multiple python versions, but I also have an extremely long list of thing I intend to learn how to do, so we will see how that turns out.
 
-This is NOT fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don't need to run the profile very often, and it is primarily intended for short-duration scripts. The two easiest workarounds are (a) select a small test case, and (b) use a different profile to target specific functions in bigger code-bases.
+This is **NOT** fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don't need to run the profile very often, and it is primarily intended for short-duration scripts. The two easiest workarounds are (a) select a small test case, and (b) use a different profile to target specific functions in bigger code-bases.
 
 I get odd results sometimes if I profile code in a subfolder (`line_profiler.py script.py` is fine, `line_profiler.py path/to/script.py` is sometimes not okay).
+
+There is very little in the way of error checking. If the script fails, it will likely fail spectacularly. I generally prefer this because it is (a) easy to code, and (b) alerts me to the fact that I have done something wrong.
 
 
 ```python
@@ -63,7 +66,7 @@ while "/" in script_name:
 
 
 
-# define the 256 colors so that the lines can get colorized
+# define the 256 available terminal colors so that the lines can get colorized appropriately
 colors = [
 	(  0,  0,  0), (128,  0,  0), (  0,128,  0), (128,128,  0), (  0,  0,128), (128,  0,128), (  0,128,128), (192,192,192),
 	(128,128,128), (255,  0,  0), (  0,255,  0), (255,255,  0), (  0,  0,255), (255,  0,255), (  0,255,255), (255,255,255),
