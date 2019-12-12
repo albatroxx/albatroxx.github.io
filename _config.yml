@@ -13,7 +13,7 @@ show_excerpts: false # set to true to show excerpts on the homepage
 moving:
   avatar_url: "https://i.loli.net/2019/08/26/JzCLhDWPEybZr2T.jpg" # avatar in about page
   about_you: >
-    A fourth-year civil engineering student at Lakehead University, with a passion for scripting and science.
+    A fourth-year civil engineering student at Lakehead University, with a passion for scripting and science. And dirt, but it sounds weird when I say it like that.
   date_format: "%b %d" # date format of posts in home page
   back_to: "All Posts" # In the post page, you have a back button above the title, you can custom the text by yourself.
 
