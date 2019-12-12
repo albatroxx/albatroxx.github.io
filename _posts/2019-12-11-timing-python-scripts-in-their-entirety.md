@@ -3,15 +3,14 @@ layout: post
 ---
 ![Output](https://albatroxx.github.io/images/line_profiler.png)
 
-Apparently there aren't a ton of very convenient code profilers for python. That isn't to say that there aren't good ways to profile code, as there are some very powerful tools available, but I was looking for something simple. Ideally, it would,
- - have no dependencies
- - profile an entire script (not just individual functions)
- - provide clear visual feedback of the hotspots in the code itself (no loading the data in Google Sheets to process)
- - just work
+Apparently there aren't a ton of very convenient code profilers for python. That isn't to say that there aren't good ways to profile code, as there are some very powerful tools available, but none of the did what I wanted a profiler to do. I had three criteria for my theoretical profiler:
+ - It should profile an entire script
+ - It should provide clear visual feedback of the hotspots in the code itself
+ - It should be simple to get and use
 
-Generally I write scripts that perform specific functions (generally automation, but also often data processing or simple simulation) to make my life easier, and I really do not want to refactor a program I just hacked together to be compatible with anything. Particularly so because most of my problems show up when I try to refactor my code. I wanted a profiler that would work on anything that didn't throw an error, and would tell me (in context) which lines of code were my problem spots, without requiring decorators, wrapping code in functions, or anything of that sort.
+Generally I write scripts that perform repetetive taks I don't want to do in order to make my life easier. These usually involve for loops and thousands of iterations, but not much in the way of classes and function calls. Since most of my code is imperative rather than object oriented, my ideal profiler would be independant of classes and functions. I wanted a profiler that would work on anything that didn't throw an error, without requiring any changes to that code. Second, I am a very visual person, and seeing a line of code outside of its context is super confusing to me. Ideally, a profiler would tell me (in context) which lines of code were my problem spots in a visual way. Third, I hate dealing with dependencies, multiple utilities and several step processes. My ideal profiler would be a single program with no dependencies (except the python standard library, since it will be profiling python code), and be executable with a single command.
 
-Spoiler, I didn't find one. But that is okay because it turns out they are pretty fun to write.
+Spoiler, I didn't find one. But it turns out they are pretty fun to write. So that's cool.
 
 ## Installation
 In the interest of making life simple, I didn't do much in the way of packaging. One day I will figure that out, but not today. For now, installation goes as follows:
@@ -34,8 +33,7 @@ This is **NOT** fast. Some very basic benchmarking pegs it at 15-60 times slower
 
 I get odd results sometimes if I profile code in a subfolder (`line_profiler.py script.py` is fine, `line_profiler.py path/to/script.py` is sometimes not okay).
 
-There is very little in the way of error checking. If the script fails, it will likely fail spectacularly. I generally prefer this because it is (a) easy to code, and (b) alerts me to the fact that I have done something wrong.
-
+This script contains very little in the way of error checking. If the script fails, it will likely fail spectacularly. I generally prefer this because it is (a) easy to code, and (b) alerts me to the fact that I have done something wrong.
 
 ```python
 #!/usr/bin/python3
