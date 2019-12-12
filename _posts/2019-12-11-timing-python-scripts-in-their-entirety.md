@@ -26,7 +26,7 @@ There are two command line options, both of which are disabled by default:
  - `--time-estimate` will run your script silently before beginning the profile to get an idea of how much time it will take to execute
 
 
-## Know Issues
+## Known Issues
 This has only been tested for compatability with Python 3.5+. I wholeheartedly intend to figure out a testing setup to allow me to test code against multiple python versions, but I also have an extremely long list of thing I intend to learn how to do, so we will see how that turns out.
 
 This is **NOT** fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don't need to run the profile very often, and it is primarily intended for short-duration scripts. The two easiest workarounds are (a) select a small test case, and (b) use a different profile to target specific functions in bigger code-bases.
