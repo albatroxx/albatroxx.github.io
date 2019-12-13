@@ -148,23 +148,30 @@ def help ():
 	print("This example assumes that this module was imported with 'import terminal_formatting as tf'")
 	print("Each of the following commands changes all future text, and evaluates to a string.")
 	print("The output from each command shown below is equivalent to writing \"<command> + 'Hello World!' + tf.reset\"")
-	print("This module also contains a large number of special characters, including common symbols and the greek (lowercase) alphabet.")
 	print()
 	# print the header
 	print("-"*177)
 	print("|{:^57}|{:^67}|{:^49}|".format("Change Foreground", "Change Background", "Change Both"))
 	print("-"*177)
 	# generate and print the table
-	all_colors = ( "black", "darkgrey", "red", "lightred", "olive","green", "gold", "yellow",
-		"blue", "lightblue", "purple", "magenta", "cyan", "lightcyan", "lightgrey", "white")
-	all_styles = sorted(list(styles.keys()))
-	for c in all_colors:
+	for c in ("black", "darkgrey", "red", "lightred", "olive","green", "gold", "yellow", "blue", "lightblue", "purple", "magenta", "cyan", "lightcyan", "lightgrey", "white"):
 		output = [
 			"{} or {} = {}".format("tf.{0:<10}", "tf.color('{0}')" + " "*(10-len(c)), "{1}{4}"),
 			"{} or {} = {}".format("tf.h{0:<10}", "tf.highlight('{0}')" + " "*(10-len(c)), "{2}{4}"),
 			"{} = {}".format("tf.color('black-on-{0}')" + " "*(10-len(c)), "{3}{4}")]
 		print("    |    ".join(output).format(c, color(c), highlight(c), color("black-on-"+c), "Hello World!" + reset))
+	print("-"*177)
+	print("\n")
+	print("Unlike the previous commands, styles() can take any number of arguments, each representing a different style.")
+	print("For example, \"style('bold', 'italic', 'strikeout')\" would produce {}Hello World!{}".format(style("bold", "italic", "strikeout"), reset))
 	print()
+	print("-"*53)
+	print("|{:^51}|".format("Change Text Style"))
+	print("-"*53)
+	for s in sorted(list(styles.keys())):
+		print(("tf.{:<9} or tf.styles('{}')" + " "*(9-len(s)) + " = {}{}").format(s, s, styles[s], "Hello World!" + reset))
+	print()
+	print("This module also contains a large number of special characters, including the lowercase greek alphabet.")
 	# print the screen size too, just in case that is useful
 	print("The current screen size (in characters) is {0[0]} x {0[1]}".format(os.popen('stty size', 'r').read().split()))
 
