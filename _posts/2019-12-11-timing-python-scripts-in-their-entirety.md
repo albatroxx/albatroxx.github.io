@@ -7,37 +7,40 @@ layout: post
   <figcaption style="text-align:center;">Looks like eval() is super slow.</figcaption>
 </figure>
 
-Apparently there aren't a ton of very convenient code profilers for Python. That isn't to say that there aren't good ways to profile code, as there are some very powerful tools available, but none of the did what I wanted a profiler to do. I had three criteria for my theoretical profiler:
- - It should profile an entire script
- - It should provide clear visual feedback of the hotspots in the code itself
- - It should be simple to get and use
+Apparently, there aren’t a ton of very convenient code profilers for Python. That isn’t to say that there aren’t good ways to profile code, as there are some potent tools available, but none of them did what I wanted a profiler to do. I had three criteria for my theoretical profiler:
+1. It should profile an entire script
+2. It should provide clear visual feedback of the hotspots in the code itself
+3. It should be simple to get and use
 
-Generally I write scripts that perform repetetive taks I don't want to do in order to make my life easier. These usually involve for loops and thousands of iterations, but not much in the way of classes and function calls. Since most of my code is imperative rather than object oriented, my ideal profiler would be independant of classes and functions. I wanted a profiler that would work on anything that didn't throw an error, without requiring any changes to that code. Second, I am a very visual person, and seeing a line of code outside of its context is super confusing to me. Ideally, a profiler would tell me (in context) which lines of code were my problem spots in a visual way. Third, I hate dealing with dependencies, multiple utilities and several step processes. My ideal profiler would be a single program with no dependencies (except the Python standard library, since it will be profiling Python code), and be executable with a single command.
+Generally, I write scripts that perform repetitive tasks I don’t want to do in order to make my life easier. These usually involve for loops and thousands of iterations, but not much in the way of classes and function calls. Since most of my code is imperative rather than object-oriented, my ideal profiler would be independent of classes and functions. I wanted a profiler that would work on anything that didn’t throw an error, without requiring any changes to that code. Second, I am a very visual person, and seeing a line of code outside of its context is super confusing to me. Ideally, a profiler would visually tell me (in context) which lines of code were my problem spots. Third, I hate dealing with dependencies, multiple utilities and several step processes. My ideal profiler would be a single program with no dependencies (except the Python standard library, since it will be profiling Python code), and be executable with a single command.
 
-Spoiler, I didn't find one. But it turns out they are pretty fun to write. So that's cool.
+Spoiler, I didn’t find a profiler than met my requirements, but it turns out they are pretty fun to write. So that’s cool.
 
 ### Installation
-In the interest of making life simple, I didn't do much in the way of packaging. One day I will figure that out, but not today. For now, installation goes as follows:
-1. Copy the code into a file. I named mine "line_profiler.py", but if you want a different name you can do that too. Just be aware that whatever you name it is what you need to type to run the program later.
-2. Save the file (or download) to somewhere in your $PATH. Usually the most logical place is /usr/bin/, but you can always check what your options are by running `echo $PATH` in a terminal.
-3. In the terminal, run `chmod +x line_profiler.py` from the file's location to make it executable.
+
+In the interest of making life simple, I didn’t do much in the way of packaging. One day I will figure that out, but not today. For now, installation goes as follows:
+1. Copy the code into a file. I named mine `line_profiler.py`, but if you want a different name, you can do that too. Just be aware that whatever name you choose will be the command you need to type to run the program later.
+2. Save the file (or download) to somewhere in your `$PATH`. Usually, the most logical place is `/usr/bin/`, but you can always check what your options are by running `echo $PATH` in a terminal.
+3. In the terminal, run `chmod +x line_profiler.py` from the file’s location to make it executable.
+That's it. You're done.
 
 ### Execution
-To run the program, run `line_profiler.py script_to_run.py [any command line arguments used by script_to_run.py]`.
 
-There are two command line options, both of which are disabled by default:
+To run the program, run `line_profiler.py script_to_run.py [any command-line arguments used by script_to_run.py]`.
+
+There are two command-line options, both of which are disabled by default:
  - `--include-imports` will include the time spent importing modules in the time profile
  - `--time-estimate` will run your script silently before beginning the profile to get an idea of how much time it will take to execute
 
-
 ### Known Issues
-This has only been tested for compatability with Python 3.5+. I wholeheartedly intend to figure out a testing setup to allow me to test code against multiple Python versions, but I also have an extremely long list of thing I intend to learn how to do, so we will see how that turns out.
 
-This is **NOT** fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don't need to run the profile very often, and it is primarily intended for short-duration scripts. The two easiest workarounds are (a) select a small test case, and (b) use a different profile to target specific functions in bigger code-bases.
+I have only tested this program for compatibility with Python 3.5+. I wholeheartedly intend to figure out a testing setup to allow me to test code against multiple Python versions, but I also have an extremely long list of things I intend to learn how to do, so we will see how that turns out.
 
-I get odd results sometimes if I profile code in a subfolder (`line_profiler.py script.py` is fine, `line_profiler.py path/to/script.py` is sometimes not okay).
+This is NOT fast. Some very basic benchmarking pegs it at 15-60 times slower than the code being profiled. That being said, you don’t need to run the profile very often, and it is primarily intended for short-duration scripts. The two simplest workarounds are (a) select a small test case, and (b) use a different profiler to target specific functions in bigger code-bases.
 
-This script contains very little in the way of error checking. If the script fails, it will likely fail spectacularly. I generally prefer this because it is (a) easy to code, and (b) alerts me to the fact that I have done something wrong.
+I get odd results sometimes if I profile code in a subfolder (i.e. `line_profiler.py script.py` is fine, `line_profiler.py path/to/script.py` is sometimes not okay). This is inconsistent, so just be aware that if you get strange results that you don't believe, make sure you are in the folder where the script lives when you run the program.
+
+This script contains very little in the way of error checking. If the script fails, it will likely fail spectacularly. I generally prefer this because it is (a) simple to code, and (b) alerts me to the fact that I have done something wrong.
 
 ```python
 #!/usr/bin/python3
