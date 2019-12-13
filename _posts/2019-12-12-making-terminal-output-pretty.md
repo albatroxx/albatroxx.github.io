@@ -16,55 +16,35 @@ This library provides three pieces of functionality. First, it allows for easy t
 As always, I am a big fan of simple tools with no dependencies outside of the standard libraries. If you want simple terminal formatting with little overhead, feel free to use this.
 
 ```python
-import os
+#!/usr/bin/python3
 
-#formatting
-reset =     "\x1b[0m"
-bold =      "\x1b[1m"
-dim =       "\x1b[2m"
-italic =    "\x1b[3m"
-underline = "\x1b[4m"
-blink =     "\x1b[5m"
-invert =    "\x1b[6m"
-highlight = "\x1b[7m"
-invisible = "\x1b[8m"
-strikeout = "\x1b[9m"
-#foreground colors
-black =     "\x1b[30m"
-dgrey =     "\x1b[90m"
-red =       "\x1b[31m"
-lred =      "\x1b[91m"
-olive =     "\x1b[32m"
-green =     "\x1b[92m"
-gold =      "\x1b[33m"
-yellow =    "\x1b[93m"
-blue =      "\x1b[34m"
-lblue =     "\x1b[94m"
-purple =    "\x1b[35m"
-magenta =   "\x1b[95m"
-cyan =      "\x1b[36m"
-lcyan =     "\x1b[96m"
-lgrey =     "\x1b[37m"
-white =     "\x1b[97m"
-#background colors
-hblack =    "\x1b[40m"
-hdgrey =    "\x1b[100m"
-hred =      "\x1b[41m"
-hlred =     "\x1b[101m"
-holive =    "\x1b[42m"
-hgreen =    "\x1b[102m"
-hgold =     "\x1b[43m"
-hyellow =   "\x1b[103m"
-hblue =     "\x1b[44m"
-hlblue =    "\x1b[104m"
-hpurple =   "\x1b[45m"
-hmagenta =  "\x1b[105m"
-hcyan =     "\x1b[46m"
-hlcyan =    "\x1b[106m"
-hlgrey =    "\x1b[47m"
-hwhite =    "\x1b[107m"
+import trace as tr
+import time as ti
+import subprocess as su
+import glob as gl
+import sys as sy
 
-# define the 256 colors
+print("\n"*5)
+# ensure a valid file was entered
+if len(sy.argv) < 2:
+	print("must specify a python file to profile")
+	exit()
+# make sure the first argument is actually a python file
+if sy.argv[1][-3:] != ".py":
+	print("the selected file is not a python script")
+	exit()
+# set variables from command line arguments
+script = sy.argv[1]
+ignore_imports = "--include-imports" not in sy.argv
+compare_runtimes = "--time-estimate" in sy.argv
+# remove any folder structure to get the name of the script
+script_name = script
+while "/" in script_name:
+	script_name = script_name[script_name.find("/")+1:]
+
+
+
+# define the 256 available terminal colors so that the lines can get colorized appropriately
 colors = [
 	(  0,  0,  0), (128,  0,  0), (  0,128,  0), (128,128,  0), (  0,  0,128), (128,  0,128), (  0,128,128), (192,192,192),
 	(128,128,128), (255,  0,  0), (  0,255,  0), (255,255,  0), (  0,  0,255), (255,  0,255), (  0,255,255), (255,255,255),
@@ -109,36 +89,69 @@ def rgb(r, g, b):
 		if d < distance:
 			distance = d
 			color = a
-	return f"\x1b[38;5;{color}m"
+	return "\x1b[38;5;{}m".format(color)
 
-def help ():
-    print ()
-    print ("Use the following codes to change all future text. Note that the code '\\x1b[0m' resets everything to default.")
-    print ("--------------------------------------------------------------------------------------------------------------")
-    #you can double up text color and highlight tags
-    print ("\x1b[30m \\x1b[30m Black      \x1b[0m     "     + "\x1b[40m \\x1b[40m  Black Highlight      \x1b[0m     \\x1b[0m \x1b[0m Regular \x1b[0m")
-    print ("\x1b[90m \\x1b[90m Dark Grey  \x1b[0m     "    + "\x1b[100m \\x1b[100m Dark Grey Highlight  \x1b[0m     \\x1b[1m \x1b[1m Bolded \x1b[0m")
-    print ("\x1b[31m \\x1b[31m Red        \x1b[0m     "     + "\x1b[41m \\x1b[41   Red Highlight        \x1b[0m     \\x1b[2m \x1b[2m Dim \x1b[0m")
-    print ("\x1b[91m \\x1b[91m Light Red  \x1b[0m     "    + "\x1b[101m \\x1b[101  Light Red Highlight  \x1b[0m     \\x1b[3m \x1b[3m Italicized \x1b[0m")
-    print ("\x1b[32m \\x1b[32m Olive      \x1b[0m     "     + "\x1b[42m \\x1b[42   Olive Highlight      \x1b[0m     \\x1b[4m \x1b[4m Underlined \x1b[0m")
-    print ("\x1b[92m \\x1b[92m Green      \x1b[0m     "    + "\x1b[102m \\x1b[102  Green Highlight      \x1b[0m     \\x1b[5m \x1b[5m Blinking \x1b[0m")
-    print ("\x1b[33m \\x1b[33m Gold       \x1b[0m     "     + "\x1b[43m \\x1b[43   Gold Highlight       \x1b[0m     \\x1b[6m \x1b[6m Inverted \x1b[0m")
-    print ("\x1b[93m \\x1b[93m Yellow     \x1b[0m     \x1b[30m\x1b[103m \\x1b[103  Yellow Highlight     \x1b[0m     \\x1b[7m \x1b[7m Highlighted \x1b[0m")
-    print ("\x1b[34m \\x1b[34m Blue       \x1b[0m     "     + "\x1b[44m \\x1b[44   Blue Highlight       \x1b[0m     \\x1b[8m \x1b[8m Invisible \x1b[0m")
-    print ("\x1b[94m \\x1b[94m Light Blue \x1b[0m     \x1b[30m\x1b[104m \\x1b[104  Light Blue Highlight \x1b[0m     \\x1b[9m \x1b[9m Struck Out \x1b[0m")
-    print ("\x1b[35m \\x1b[35m Purple     \x1b[0m     "     + "\x1b[45m \\x1b[45   Purple Highlight     \x1b[0m")
-    print ("\x1b[95m \\x1b[95m Magenta    \x1b[0m     "    + "\x1b[105m \\x1b[105  Magenta Highlight    \x1b[0m")
-    print ("\x1b[36m \\x1b[36m Cyan       \x1b[0m     "     + "\x1b[46m \\x1b[46   Cyan Highlight       \x1b[0m")
-    print ("\x1b[96m \\x1b[96m Light Cyan \x1b[0m     "    + "\x1b[106m \\x1b[106  Light Cyan Highlight \x1b[0m")
-    print ("\x1b[37m \\x1b[37m Light Grey \x1b[0m     \x1b[30m\x1b[47m \\x1b[47   Light Grey Highlight \x1b[0m")
-    print ("\x1b[97m \\x1b[97m White      \x1b[0m     \x1b[30m\x1b[107m \\x1b[107  White Highlight      \x1b[0m")
-    print ()
-    print ("This:       \\x1b[1m\\x1b[4m\\x1b[5m\\x1b[93m\\x1b[100mBold, Underlined, Italic Yellow Text on a Dark Grey Background\\x1b[0m")
-    print ("Produces:   \x1b[1m\x1b[4m\x1b[5m\x1b[93m\x1b[100mBold, Underlined, Italic Yellow Text on a Dark Grey Background\x1b[0m")
-    print ()
-    
-    print ("The current screen dimensions (in characters) are:") 
-    rows, columns = os.popen('stty size', 'r').read().split()
-    print ("Rows:   " + str(rows))
-    print ("Cols:   " + str(columns))
+
+
+#############################
+# RUN THE SCRIPT AND LOGGER #
+#############################
+
+# give an estimate of runtime in case the expected duration is very high
+if compare_runtimes:
+	start_time = ti.time()
+	process = su.run(["python3", script], universal_newlines=True, stdout=su.PIPE, stderr=su.PIPE)
+	stop_time = ti.time()
+	print("Script originally executed in {:8.4} seconds".format(stop_time-start_time))
+	print("Expected runtime of line_profiler.py is {:7.3} to {:7.3} seconds".format((stop_time-start_time)*15, (stop_time-start_time)*60))
+
+# time the script
+print("executing '{}' now.".format(script_name))
+start_time = ti.time()
+process = su.run(["python3", "-m", "trace", "--trace", "--missing", "--timing", script], universal_newlines=True, stdout=su.PIPE, stderr=su.PIPE)
+stop_time = ti.time()
+
+
+
+####################
+# PROCESS THE DATA #
+####################
+
+# get the file that was run
+file = open(script, "r").read().split("\n")
+# get the output from that file
+output = process.stdout.split("\n")
+
+print("="*50)
+print("{} commands executed in {:8.4} seconds".format(len(output), stop_time-start_time))
+output = [a for a in output if " {}(".format(script_name) in a] # only include lines relating to the selected script
+output = [a for a in output if a.find(" {}(".format(script_name)) < 20] # occasionally unintended lines slip through with the script file referenced at the end
+print("{} of which are local to '{}'".format(len(output), script_name))
+print("="*50)
+
+# extract the timing information
+line_times = {a:0.0 for a in range(len(file)+1)}
+for a in range(len(output)-1):
+	time = float(output[a+1][:output[a+1].index(" ")]) - float(output[a][:output[a].index(" ")])
+	line = int(output[a][output[a].index(" {}(".format(script_name))+len(" {}(".format(script_name)):output[a].index(")")])
+	line_times[line-1] += time
+
+# edit out the import statements
+if ignore_imports:
+	for a in range(len(file)):
+		if file[a][:6] == "import" or (file[a][:4] == "from" and "import" in file[a]):
+			line_times[a] = 0
+
+
+
+######################################
+# DISPLAY THE COLORIZED LINE PROFILE #
+######################################
+
+# display the results
+total_time = sum(line_times.values())
+scale = 1.0 / (max(line_times.values())/total_time)
+for a in range(len(file)):
+	coloredness = 256*scale*line_times[a]/total_time
+	print("{}{:5}{:6.1f}: {}".format(rgb(128 + coloredness, 128 - coloredness, 128 - coloredness), a+1, 100*line_times[a]/total_time, file[a]))
     ```
