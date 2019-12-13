@@ -18,7 +18,7 @@ As always, I am a big fan of simple tools with no dependencies outside of the st
 ```python
 import os
 
-
+# styles
 reset = "\x1b[0m"
 bold = "\x1b[1m"
 dim = "\x1b[2m"
@@ -31,7 +31,7 @@ invisible = "\x1b[8m"
 strikeout = "\x1b[9m"
 styles = {"reset":reset, "bold":bold, "dim":dim, "italic":italic, "underline":underline,
 	"blink":blink, "invert":invert, "highlight":highlight, "invisible":invisible, "strikeout":strikeout}
-
+# foreground colors
 black = "\x1b[30m"
 darkgray = "\x1b[90m"
 darkgrey = "\x1b[90m"
@@ -54,6 +54,7 @@ foreground_colors = {"black":black, "darkgray":darkgray, "darkgrey":darkgrey, "r
 	"olive":olive, "green":green, "gold":gold, "yellow":yellow, "blue":blue, "lightblue":lightblue,
 	"purple":purple, "magenta":magenta, "cyan":cyan, "lightcyan":lightcyan, "lightgray":lightgray,
 	"lightgrey":lightgrey, "white":white}
+# background colors
 hblack = "\x1b[40m"
 hdarkgray = "\x1b[100m"
 hdarkgrey = "\x1b[100m"
@@ -201,7 +202,7 @@ counterclockwise = "\u293F"
 textonequarter = "\xbc"
 textonehalf = "\xbd"
 textthreequarters = "\xbe"
-naught = "\xf8"
+naught = "\xd8"
 
 # greek letters
 alpha = "\u03B1"
