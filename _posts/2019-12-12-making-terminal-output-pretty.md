@@ -7,7 +7,7 @@ layout: post
   <figcaption style="text-align:center;">The help() function displays a comprehensive set of examples.</figcaption>
 </figure>
 
-If you read my post from yesterday, you may have been thinking, "Gee, this does seem like an odd place for a very detailed function for colouring text in the terminal". And you would be right, as I originally wrote that function for a small terminal formatting library I made. I imagine there is an equivalent library somewhere that I could just install and use, but I wrote this several years ago before I learned about pip and conda.
+If you read my post from yesterday, you may have been thinking, "Gee, this does seem like an odd place for a very detailed function for colouring text in the terminal". And you would be right, as I originally wrote that function for a small terminal formatting library I made. I imagine there is an equivalent library somewhere that I could just install and use, but I wrote the first version of this library several years ago before I learned about pip and conda.
 
 Speaking of conda, if you have not yet heard [the good news that is conda](https://docs.conda.io/en/latest/miniconda.html), today is your lucky day. I wholeheartedly recommend installing python through miniconda, since it makes all of your dependency problems go away.
 
@@ -19,102 +19,63 @@ As always, I am a big fan of simple tools with no dependencies outside of the st
 import os
 
 
-reset = 	"\x1b[0m"
-bold = 		"\x1b[1m"
-dim = 		"\x1b[2m"
-italic = 	"\x1b[3m"
+reset = "\x1b[0m"
+bold = "\x1b[1m"
+dim = "\x1b[2m"
+italic = "\x1b[3m"
 underline = "\x1b[4m"
-blink = 	"\x1b[5m"
-invert = 	"\x1b[6m"
+blink = "\x1b[5m"
+invert = "\x1b[6m"
 highlight = "\x1b[7m"
 invisible = "\x1b[8m"
 strikeout = "\x1b[9m"
-styles = {
-	"reset":	reset,
-	"bold":		bold,
-	"dim":		dim,
-	"italic":	italic,
-	"underline":underline,
-	"blink":	blink,
-	"invert":	invert,
-	"highlight":highlight,
-	"invisible":invisible,
-	"strikeout":strikeout}
+styles = {"reset":reset, "bold":bold, "dim":dim, "italic":italic, "underline":underline,
+	"blink":blink, "invert":invert, "highlight":highlight, "invisible":invisible, "strikeout":strikeout}
 
-black = 	"\x1b[30m"
-darkgray = 	"\x1b[90m"
-darkgrey = 	"\x1b[90m"
-red = 		"\x1b[31m"
-lightred = 	"\x1b[91m"
-olive = 	"\x1b[32m"
-green = 	"\x1b[92m"
-gold = 		"\x1b[33m"
-yellow = 	"\x1b[93m"
-blue = 		"\x1b[34m"
+black = "\x1b[30m"
+darkgray = "\x1b[90m"
+darkgrey = "\x1b[90m"
+red = "\x1b[31m"
+lightred = "\x1b[91m"
+olive = "\x1b[32m"
+green = "\x1b[92m"
+gold = "\x1b[33m"
+yellow = "\x1b[93m"
+blue = "\x1b[34m"
 lightblue = "\x1b[94m"
-purple = 	"\x1b[35m"
-magenta = 	"\x1b[95m"
-cyan = 		"\x1b[36m"
+purple = "\x1b[35m"
+magenta = "\x1b[95m"
+cyan = "\x1b[36m"
 lightcyan = "\x1b[96m"
 lightgray = "\x1b[37m"
 lightgrey = "\x1b[37m"
-white = 	"\x1b[97m"
-foreground_colors = {
-	"black":	black,
-	"darkgray":	darkgray,
-	"darkgrey":	darkgrey,
-	"red":		red,
-	"lightred":	lightred,
-	"olive":	olive,
-	"green":	green,
-	"gold":		gold,
-	"yellow":	yellow,
-	"blue":		blue,
-	"lightblue":lightblue,
-	"purple":	purple,
-	"magenta":	magenta,
-	"cyan":		cyan,
-	"lightcyan":lightcyan,
-	"lightgray":lightgray,
-	"lightgrey":lightgrey,
-	"white":	white}
-hblack = 		"\x1b[40m"
-hdarkgray = 	"\x1b[100m"
-hdarkgrey = 	"\x1b[100m"
-hred = 			"\x1b[41m"
-hlightred = 	"\x1b[101m"
-holive = 		"\x1b[42m"
-hgreen = 		"\x1b[102m"
-hgold = 		"\x1b[43m"
-hyellow = 		"\x1b[103m"
-hblue = 		"\x1b[44m"
-hlightblue =	"\x1b[104m"
-hpurple = 		"\x1b[45m"
-hmagenta = 		"\x1b[105m"
-hcyan = 		"\x1b[46m"
-hlightcyan =	"\x1b[106m"
-hlightgray =	"\x1b[47m"
-hlightgrey =	"\x1b[47m"
-hwhite = 		"\x1b[107m"
-background_colors = {
-	"black":	hblack,
-	"darkgray":	hdarkgray,
-	"darkgrey":	hdarkgrey,
-	"red":		hred,
-	"lightred":	hlightred,
-	"olive":	holive,
-	"green":	hgreen,
-	"gold":		hgold,
-	"yellow":	hyellow,
-	"blue":		hblue,
-	"lightblue":hlightblue,
-	"purple":	hpurple,
-	"magenta":	hmagenta,
-	"cyan":		hcyan,
-	"lightcyan":hlightcyan,
-	"lightgray":hlightgray,
-	"lightgrey":hlightgrey,
-	"white":	hwhite}
+white = "\x1b[97m"
+foreground_colors = {"black":black, "darkgray":darkgray, "darkgrey":darkgrey, "red":red, "lightred":lightred,
+	"olive":olive, "green":green, "gold":gold, "yellow":yellow, "blue":blue, "lightblue":lightblue,
+	"purple":purple, "magenta":magenta, "cyan":cyan, "lightcyan":lightcyan, "lightgray":lightgray,
+	"lightgrey":lightgrey, "white":white}
+hblack = "\x1b[40m"
+hdarkgray = "\x1b[100m"
+hdarkgrey = "\x1b[100m"
+hred = "\x1b[41m"
+hlightred = "\x1b[101m"
+holive = "\x1b[42m"
+hgreen = "\x1b[102m"
+hgold = "\x1b[43m"
+hyellow = "\x1b[103m"
+hblue = "\x1b[44m"
+hlightblue = "\x1b[104m"
+hpurple = "\x1b[45m"
+hmagenta = "\x1b[105m"
+hcyan = "\x1b[46m"
+hlightcyan = "\x1b[106m"
+hlightgray = "\x1b[47m"
+hlightgrey = "\x1b[47m"
+hwhite = "\x1b[107m"
+background_colors = {"black":hblack, "darkgray":hdarkgray, "darkgrey":hdarkgrey, "red":hred, "lightred":hlightred,
+	"olive":holive, "green":hgreen, "gold":hgold, "yellow":hyellow, "blue":hblue, "lightblue":hlightblue,
+	"purple":hpurple, "magenta":hmagenta, "cyan":hcyan, "lightcyan":hlightcyan, "lightgray":hlightgray,
+	"lightgrey":hlightgrey, "white":hwhite}
 # define the 256 colors available in the terminal
 colors = [
 	(  0,  0,  0), (128,  0,  0), (  0,128,  0), (128,128,  0), (  0,  0,128), (128,  0,128), (  0,128,128), (192,192,192),
@@ -193,11 +154,8 @@ def help ():
 	print("|{:^57}|{:^67}|{:^49}|".format("Change Foreground", "Change Background", "Change Both"))
 	print("-"*177)
 	# generate and print the table
-	all_colors = (
-		"black", "darkgrey", "red", "lightred",
-		"olive","green", "gold", "yellow",
-		"blue", "lightblue", "purple", "magenta",
-		"cyan", "lightcyan", "lightgrey", "white")
+	all_colors = ( "black", "darkgrey", "red", "lightred", "olive","green", "gold", "yellow",
+		"blue", "lightblue", "purple", "magenta", "cyan", "lightcyan", "lightgrey", "white")
 	all_styles = sorted(list(styles.keys()))
 	for c in all_colors:
 		output = [
